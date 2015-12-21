@@ -5,12 +5,32 @@ var express = require('express'),
 
   //WHEN the app loads for the first time, register "ejs" as the emplating language
   // http://www.embeddedjs.com
-  app.get('/hi', function (req, res){
-    //THEN read the file name index.ejs, and do some text replacing
-    // such that <%= name %> becomes "Elie"
-    var name = req.query.name;
-    res.render('index', {name: name});
+  app.get('/:route/:num1/:num2', function (req, res){
+    //prints the sum added of the two numbers
+    var mathtype = req.params.route;
+    var result;
+    var num1 = +req.params.num1;
+    var num2 = +req.params.num2;
+    switch (mathtype){
+      case "add":
+        result = num1 + num2;
+        break;
+      case "sub":
+        result = num1 - num2;
+        break;
+      case "mult":
+        result = num1 * num2;
+        break;
+      case "div":
+        result = num1 / num2;
+        break;
+      default:
+        result = 0;
+    }
+
+    res.render('index', {finalnum : result});
   })
+  // http://www.embeddedjs.com
 //
 // var vegetables = [
 //   "Carrots",
@@ -37,9 +57,11 @@ var express = require('express'),
 //   //When someone visits /hello/john
 //   //THEN set req.params to an object that looks like this  { name: "john"}
 //
-//   app.get("/hello/:name", function (req, res){
-//     res.send("Hello, " + req.params.name );
-//   })
+  // app.get("/add/:num1/:num2", function (req, res){
+  //   var number1 = +req.params.num1;
+  //   var number2 = +req.params.num2;
+  //   res.send("Hello, " + typeof number1 + " " + typeof number2 );
+  // })
 //
 //   //When someone visits /companies/apple/products/iphone
 //   //THEN set req.params to an object that looks like this:
