@@ -1,6 +1,21 @@
 var express = require('express'),
   app = express();
 
+var functions = {
+  "add" : function(one, two){
+    return one + two;
+  },
+  "sub": function(one, two){
+    return one - two;
+  },
+  "mult": function(one, two){
+    return one * two;
+  },
+  "div": function(one, two){
+    return one / two;
+  }
+}
+
   app.set('view engine', 'ejs');
 
   //WHEN the app loads for the first time, register "ejs" as the emplating language
@@ -8,27 +23,9 @@ var express = require('express'),
   app.get('/:route/:num1/:num2', function (req, res){
     //prints the sum added of the two numbers
     var mathtype = req.params.route;
-    var result;
     var num1 = +req.params.num1;
     var num2 = +req.params.num2;
-    switch (mathtype){
-      case "add":
-        result = num1 + num2;
-        break;
-      case "sub":
-        result = num1 - num2;
-        break;
-      case "mult":
-        result = num1 * num2;
-        break;
-      case "div":
-        result = num1 / num2;
-        break;
-      default:
-        result = 0;
-    }
-
-    res.render('index', {finalnum : result});
+    res.render('index', {finalnum : functions[mathtype](num1, num2)});
   })
   // http://www.embeddedjs.com
 //
